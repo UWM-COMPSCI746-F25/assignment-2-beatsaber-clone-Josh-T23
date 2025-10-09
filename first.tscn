@@ -18,5 +18,5 @@ transform = Transform3D(1, 0, 0, 0, 0.852795, 0.522246, 0, -0.522246, 0.852795, 
 [node name="left_hand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 
-[node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
+[node name="right_hand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
