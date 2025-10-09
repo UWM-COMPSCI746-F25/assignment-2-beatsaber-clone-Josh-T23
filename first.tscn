@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dto5ipbv5mfak"]
+
+[ext_resource type="Script" uid="uid://centaay34d1be" path="res://first.gd" id="1_6v8b3"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_6v8b3")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.249547, 0, -2.32594)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.852795, 0.522246, 0, -0.522246, 0.852795, 0, 1.77105, 1.95859)
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="left_hand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
