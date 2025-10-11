@@ -1,12 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://dto5ipbv5mfak"]
+[gd_scene load_steps=6 format=3 uid="uid://dto5ipbv5mfak"]
 
 [ext_resource type="Script" uid="uid://centaay34d1be" path="res://first.gd" id="1_6v8b3"]
+[ext_resource type="PackedScene" uid="uid://bm617mn7ty5ki" path="res://ActualControllers/oculus_quest_2_touch_controller_left.tscn" id="2_gj4ai"]
+[ext_resource type="PackedScene" uid="uid://dl40lqifkujsq" path="res://ActualControllers/oculus_quest_2_touch_controller_right.tscn" id="3_yukdk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6v8b3"]
+albedo_color = Color(0, 0.780392, 0.32549, 1)
+
+[sub_resource type="Environment" id="Environment_6v8b3"]
+background_mode = 1
+background_color = Color(0.416718, 0.539871, 0.851228, 1)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_6v8b3")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.249547, 0, -2.32594)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0162598, 0.05, 0.0467629)
+size = Vector3(100, 0.1, 100)
+material = SubResource("StandardMaterial3D_6v8b3")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.852795, 0.522246, 0, -0.522246, 0.852795, 0, 1.77105, 1.95859)
@@ -18,5 +29,12 @@ transform = Transform3D(1, 0, 0, 0, 0.852795, 0.522246, 0, -0.522246, 0.852795, 
 [node name="left_hand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 
+[node name="OculusQuest2TouchController_Left" parent="XROrigin3D/left_hand" instance=ExtResource("2_gj4ai")]
+
 [node name="right_hand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
+
+[node name="OculusQuest2TouchController_Right" parent="XROrigin3D/right_hand" instance=ExtResource("3_yukdk")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6v8b3")
