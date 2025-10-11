@@ -1,5 +1,5 @@
 extends XRController3D
-
+# SET UP LASER IN THIS SCRIPT
 var grabbed_object = null
 var collided_area = null
 
