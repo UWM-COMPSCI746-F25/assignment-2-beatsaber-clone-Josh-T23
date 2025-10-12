@@ -16,13 +16,19 @@ func _process(delta):
 	velocity = (global_position - last_pos)/delta
 	last_pos = global_position
 
-func _on_area_3d_area_entered(area):
+#func _on_area_3d_area_entered(area):
+	#collided_area = area
+#
+#
+#func _on_area_3d_area_exited(area):
+	#collided_area = null
+
+func _on_area_3d_body_entered(area):
 	collided_area = area
 
 
-func _on_area_3d_area_exited(area):
+func _on_area_3d_body_exited(area):
 	collided_area = null
-
 
 func _on_button_pressed(name):
 	if name == "grip_click":
