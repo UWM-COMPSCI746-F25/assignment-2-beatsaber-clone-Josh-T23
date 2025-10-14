@@ -33,7 +33,10 @@ func _physics_process(delta):
 	$LineRendererRight.points[1] = end
 	if result:
 		$LineRendererRight.points[1] = result.position
-		print("Collider name: ", result.collider.name)
+		if result.collider.name == "Blue_Box":
+			%SwordSwish.play()
+			result.collider.queue_free()
+		#print("Collider name: ", result.collider.name)
 		
 
 
@@ -54,6 +57,8 @@ func _on_button_pressed(name):
 			$LineRendererRight.points[0] = Vector3(0,0,0)
 			$LineRendererRight.points[1] = Vector3(0,0,0)
 			$LineRendererRight.transparency = 1
+	#if name == "menu_button":
+		#print("You pressed the occulus button")
 
 #
 #func _on_button_released(name):
