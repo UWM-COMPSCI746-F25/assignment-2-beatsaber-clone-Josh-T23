@@ -20,17 +20,46 @@ func _ready():
 func _on_pose_recentered():
 	# User recentered view, we have to react to this by recentering the view.
 	# This is game implementation dependent.
-	print("Player just reoriented!")
-	var origin = $XROrigin3D
-	var directionToFace = Vector3(0.25,0.75,-13.11)
-	await get_tree().process_frame
+	#print("Player just reoriented!")
+	#var origin = $XROrigin3D
+	#var CubeSpawner = $%CubeSpawner
+	#var camera = $%XRCamera3D
+	#var directionToFace = CubeSpawner.global_position
+	#await get_tree().process_frame
 	#var cube = $WorldEnvironment/Blue_Box  # adjust the path if it's elsewhere
 
 	#if not origin or not cube:
 		#return
 		# keep the same Y height as origin (yaw-only rotation)
-	var here = origin.global_position
-	var flat_target = Vector3(directionToFace.x, here.y, directionToFace.z)
+	#var here = origin.global_position
+	#var flat_target = Vector3(directionToFace.x, here.y, directionToFace.z)
 	#var new_basis = Basis.looking_at(directionToFace, Vector3.UP)
-	self.look_at(flat_target, Vector3.UP)
+	#origin.look_at(directionToFace)
+	#camera.global_rotation.
+	#self.look_at(directionToFace, Vector3.UP)
 	#origin.global_position = Vector3(0,0,0)
+	print("Player just reoriented!")
+	await get_tree().process_frame
+	await get_tree().process_frame  # ensure OpenXR finishes recentering
+	
+	var CubeSpawner = $%CubeSpawner
+	if not CubeSpawner:
+		await get_tree().process_frame
+		_on_pose_recentered()
+		return
+	
+	var origin = $XROrigin3D
+	var target = CubeSpawner.global_position
+
+	# Get current origin position
+	var here = origin.global_position
+
+	# Flatten target to same Y height (yaw rotation only)
+	var flat_target = Vector3(target.x, here.y, target.z)
+
+	print("Origin rotation degrees before:", origin.rotation_degrees)
+	# Compute facing direction
+	origin.look_at(flat_target, Vector3.UP)
+	print("Origin rotation degrees after:", origin.rotation_degrees)
+	
+	print("Rotated origin toward cube:", flat_target)

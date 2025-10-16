@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://gjq04f4vawsl" path="res://LineRendererRight.gd" id="9_1868d"]
 [ext_resource type="PackedScene" uid="uid://pvdckyst1k6x" path="res://Boxes/blue_box.tscn" id="10_yih1n"]
 [ext_resource type="AudioStream" uid="uid://dw28xdso755u6" path="res://sounds/sword-sound.mp3" id="11_s8pgx"]
+[ext_resource type="Script" uid="uid://dsid00xyq8xuu" path="res://cube_spawner.gd" id="11_xkv1a"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yuy7h"]
 radius = 0.1
@@ -22,9 +23,6 @@ radius = 0.1
 [sub_resource type="Environment" id="Environment_6v8b3"]
 background_mode = 1
 background_color = Color(0.301548, 0.340108, 0.741044, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_yih1n"]
-size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6v8b3"]
 albedo_color = Color(0, 0, 0, 1)
@@ -41,6 +39,7 @@ transform = Transform3D(1, 0, 0, 0, 0.852795, 0.522246, 0, -0.522246, 0.852795, 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="left_hand" type="XRController3D" parent="XROrigin3D"]
@@ -86,20 +85,6 @@ environment = SubResource("Environment_6v8b3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.23245, 0.95, -0.6)
 size = Vector3(0.2, 0.2, 0.2)
 
-[node name="Red_Box" type="RigidBody3D" parent="WorldEnvironment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.144693)
-collision_layer = 33
-collision_mask = 33
-
-[node name="CSGBox3D" type="CSGBox3D" parent="WorldEnvironment/Red_Box"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42854, 0, -1.89377)
-size = Vector3(0.5, 0.5, 0.5)
-material = ExtResource("4_7lyux")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Red_Box"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.429, 0, -1.894)
-shape = SubResource("BoxShape3D_yih1n")
-
 [node name="Blue_Box" parent="WorldEnvironment" instance=ExtResource("10_yih1n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.75, -13.116)
 
@@ -113,6 +98,16 @@ material = SubResource("StandardMaterial3D_6v8b3")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Ground"]
 shape = SubResource("BoxShape3D_yuy7h")
 
+[node name="CubeSpawner" type="CSGBox3D" parent="WorldEnvironment"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -13.7662)
+visible = false
+size = Vector3(2, 1, 2)
+script = ExtResource("11_xkv1a")
+
+[node name="Timer" type="Timer" parent="WorldEnvironment/CubeSpawner"]
+autostart = true
+
 [node name="SwordSwish" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("11_s8pgx")
@@ -125,5 +120,4 @@ stream = ExtResource("11_s8pgx")
 [connection signal="button_released" from="XROrigin3D/right_hand" to="XROrigin3D/right_hand" method="_on_button_released"]
 [connection signal="body_entered" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D/right_hand" method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="XROrigin3D/right_hand/Area3D" to="XROrigin3D/right_hand" method="_on_area_3d_body_exited"]
-[connection signal="body_entered" from="WorldEnvironment/Red_Box" to="XROrigin3D/right_hand" method="_on_box_body_entered"]
-[connection signal="body_exited" from="WorldEnvironment/Red_Box" to="XROrigin3D/right_hand" method="_on_box_body_exited"]
+[connection signal="timeout" from="WorldEnvironment/CubeSpawner/Timer" to="WorldEnvironment/CubeSpawner" method="_on_timer_timeout"]

@@ -33,7 +33,10 @@ func _physics_process(delta):
 	$LineRendererLeft.points[1] = end
 	if result:
 		$LineRendererLeft.points[1] = result.position
-		#print("Collider name: ", result.collider.name)
+		#print("Name of box: ", result.collider.name)
+		if result.collider.name.contains("Red_Box"):
+			%SwordSwish.play()
+			result.collider.queue_free()
 		
 
 
