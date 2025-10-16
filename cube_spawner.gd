@@ -21,7 +21,7 @@ func _process(delta):
 		box.name = "Red_Box" + str(counter)
 	counter += 1
 	box.position = Vector3( self.position.x + randf_range(-0.75, 0.75), 
-	0.5 + randf_range(0, 0.15), 
+	0.6 + randf_range(0, 0.15), 
 	self.position.z + randf_range(-0.5, 0.25))
 	scene_root.add_child(box)
 	debounce = false

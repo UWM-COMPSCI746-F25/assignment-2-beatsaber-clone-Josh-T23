@@ -16,50 +16,31 @@ func _ready():
 	else:
 		print("OpenXR not initialized, please check if your headset is connected")
 		
-# Handle OpenXR pose recentered signal
+# Used chatgpt to assist in developing a method that would realign the world view to headset.
+# Prompts used (all on 10/15/2025):
+# 1. on_post_recentered for vr project. I am using look_at on the XRcamera3D and it is moving 
+# my camera up and down based on my height which is good. But it is not rotating.
+# 2. You do understand what I want you to do right? I want the screen to rotate where I am 
+# looking.
 func _on_pose_recentered():
-	# User recentered view, we have to react to this by recentering the view.
-	# This is game implementation dependent.
-	#print("Player just reoriented!")
-	#var origin = $XROrigin3D
-	#var CubeSpawner = $%CubeSpawner
-	#var camera = $%XRCamera3D
-	#var directionToFace = CubeSpawner.global_position
-	#await get_tree().process_frame
-	#var cube = $WorldEnvironment/Blue_Box  # adjust the path if it's elsewhere
+	print("Pose recentered! Aligning world with headset direction...")
+	call_deferred("_align_world_to_headset")
 
-	#if not origin or not cube:
-		#return
-		# keep the same Y height as origin (yaw-only rotation)
-	#var here = origin.global_position
-	#var flat_target = Vector3(directionToFace.x, here.y, directionToFace.z)
-	#var new_basis = Basis.looking_at(directionToFace, Vector3.UP)
-	#origin.look_at(directionToFace)
-	#camera.global_rotation.
-	#self.look_at(directionToFace, Vector3.UP)
-	#origin.global_position = Vector3(0,0,0)
-	print("Player just reoriented!")
-	await get_tree().process_frame
-	await get_tree().process_frame  # ensure OpenXR finishes recentering
-	
-	var CubeSpawner = $%CubeSpawner
-	if not CubeSpawner:
-		await get_tree().process_frame
-		_on_pose_recentered()
-		return
-	
+func _align_world_to_headset():
 	var origin = $XROrigin3D
-	var target = CubeSpawner.global_position
-
-	# Get current origin position
-	var here = origin.global_position
-
-	# Flatten target to same Y height (yaw rotation only)
-	var flat_target = Vector3(target.x, here.y, target.z)
-
-	print("Origin rotation degrees before:", origin.rotation_degrees)
-	# Compute facing direction
-	origin.look_at(flat_target, Vector3.UP)
-	print("Origin rotation degrees after:", origin.rotation_degrees)
+	var camera = $XROrigin3D/XRCamera3D
 	
-	print("Rotated origin toward cube:", flat_target)
+	# Get headset's current global yaw (rotation around Y)
+	var head_basis = camera.global_transform.basis
+	var forward = head_basis.z
+	forward.y = 0
+	#forward = forward.normalized()
+	
+	# Compute the angle the head is currently facing
+	var angle = atan2(forward.x, forward.z)
+	
+	# Rotate the origin (or a parent) *opposite* that yaw
+	# so the direction you are looking becomes forward (Z+)
+	origin.rotate_y(-angle)
+	
+	#print("Realigned world by", rad_to_deg(angle), "degrees")
