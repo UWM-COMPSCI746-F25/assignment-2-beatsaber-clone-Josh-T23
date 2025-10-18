@@ -13,7 +13,7 @@ Name: Joshua Thaisananikone
 
 UWM Email: thaisan2@uwm.edu
 
-Third Party Assets: Utilized ChatGPT to create _on_pose_recentered method and _align_world_to_headset() method. Additional comments regarding this included in the vr.gd file.
+Third Party Assets: Utilized ChatGPT to create _on_pose_recentered method and _align_world_to_headset() method. Additional comments regarding this included in the vr.gd file inside the Scripts folder.
 
 ## Getting Started
 
